@@ -1,0 +1,266 @@
+<main data-bi-name="content" dir="ltr" id="main" lang="en-us" role="main">
+<p>In this tutorial you will learn to write Azure Log Analytics queries. It will teach you how to:</p>
+
+<ul>
+	<li>Understand queries' structure</li>
+	<li>Sort query results</li>
+	<li>Filter query results</li>
+	<li>Specify a time range</li>
+	<li>Select which fields to include in the results</li>
+	<li>Define and use custom fields</li>
+	<li>Aggregate and group results</li>
+</ul>
+
+<h2 id="writing-a-new-query">Writing a new query</h2>
+
+<p>Queries can start with either a table name or the&nbsp;<em>search</em>&nbsp;command. You should start with a table name, since it defines a clear scope for the query and improves both query performance and relevance of the results.</p>
+
+<p>&nbsp;Note</p>
+
+<p>The Azure Log Analytics query language is case-sensitive. Language keywords are typically written in lower-case. When using names of tables or columns in a query, make sure to use the correct case, as shown on the schema pane.</p>
+
+<h3 id="table-based-queries">Table-based queries</h3>
+
+<p>Azure Log Analytics organizes data in tables, each composed of multiple columns. All tables and columns are shown on the schema pane, in the Analytics portal. Identify a table that you're interested in and then take a look at a bit of data:</p>
+Kusto<button data-bi-name="copy">Copy</button>
+
+<pre><code>SecurityEvent
+| take 10
+</code></pre>
+
+<p>The query shown above returns 10 results from the&nbsp;<em>SecurityEvent</em>&nbsp;table, in no specific order. This is a very common way to take a glance at a table and understand its structure and content. Let's examine how it's built:</p>
+
+<ul>
+	<li>The query starts with the table name&nbsp;<em>SecurityEvent</em>&nbsp;- this part defines the scope of the query.</li>
+	<li>The pipe (|) character separates commands, so the output of the first one in the input of the following command. You can add any number of piped elements.</li>
+	<li>Following the pipe is the&nbsp;<strong>take</strong>&nbsp;command, which returns a specific number of arbitrary records from the table.</li>
+</ul>
+
+<p>We could actually run the query even without adding&nbsp;<code>| take 10</code>&nbsp;- that would still be valid, but it could return up to 10,000 results.</p>
+
+<h3 id="search-queries">Search queries</h3>
+
+<p>Search queries are less structured, and generally more suited for finding records that include a specific value in any of their columns:</p>
+Kusto<button data-bi-name="copy">Copy</button>
+
+<pre><code>search in (SecurityEvent) "Cryptographic"
+| take 10
+</code></pre>
+
+<p>This query searches the&nbsp;<em>SecurityEvent</em>&nbsp;table for records that contain the phrase "Cryptographic". Of those records, 10 records will be returned and displayed. If we omit the&nbsp;<code>in (SecurityEvent)</code>&nbsp;part and just run&nbsp;<code>search "Cryptographic"</code>, the search will go over&nbsp;<em>all</em>tables, which would take longer and be less efficient.</p>
+
+<p>&nbsp;Note</p>
+
+<p>By default, a time range of&nbsp;<em>last 24 hours</em>&nbsp;is set. To use a different range, use the time-picker (located next to the&nbsp;<em>Go</em>&nbsp;button) or add an explicit time range filter to your query.</p>
+
+<h2 id="sort-and-top">Sort and top</h2>
+
+<p>While&nbsp;<strong>take</strong>&nbsp;is useful to get a few records, the results are selected and displayed in no particular order. To get an ordered view, you could&nbsp;<strong>sort</strong>&nbsp;by the preferred column:</p>
+Kusto<button data-bi-name="copy">Copy</button>
+
+<pre><code>SecurityEvent   
+| sort by TimeGenerated desc
+</code></pre>
+
+<p>That could return too many results though and might also take some time. The above query sorts&nbsp;<em>the entire</em>&nbsp;SecurityEvent table by the TimeGenerated column. The Analytics portal then limits the display to show only 10,000 records. This approach is of course not optimal.</p>
+
+<p>The best way to get only the latest 10 records is to use&nbsp;<strong>top</strong>, which sorts the entire table on the server side and then returns the top records:</p>
+Kusto<button data-bi-name="copy">Copy</button>
+
+<pre><code>SecurityEvent
+| top 10 by TimeGenerated
+</code></pre>
+
+<p>Descending is the default sorting order, so we typically omit the&nbsp;<strong>desc</strong>&nbsp;argument.The output will look like this:</p>
+
+<p><img alt="Top 10" data-linktype="relative-path" src="https://docs.microsoft.com/en-us/azure/azure-monitor/log-query/media/get-started-queries/top10.png"></p>
+
+<h2 id="where-filtering-on-a-condition">Where: filtering on a condition</h2>
+
+<p>Filters, as indicated by their name, filter the data by a specific condition. This is the most common way to limit query results to relevant information.</p>
+
+<p>To add a filter to a query, use the&nbsp;<strong>where</strong>&nbsp;operator followed by one or more conditions. For example, the following query returns only&nbsp;<em>SecurityEvent</em>&nbsp;records where&nbsp;<em>Level</em>&nbsp;equals&nbsp;<em>8</em>:</p>
+Kusto<button data-bi-name="copy">Copy</button>
+
+<pre><code>SecurityEvent
+| where Level == 8
+</code></pre>
+
+<p>When writing filter conditions, you can use the following expressions:</p>
+
+<table>
+	<thead>
+		<tr>
+			<th>Expression</th>
+			<th>Description</th>
+			<th>Example</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>==</td>
+			<td>Check equality<br>
+			(case-sensitive)</td>
+			<td><code>Level == 8</code></td>
+		</tr>
+		<tr>
+			<td>=~</td>
+			<td>Check equality<br>
+			(case-insensitive)</td>
+			<td><code>EventSourceName =~ "microsoft-windows-security-auditing"</code></td>
+		</tr>
+		<tr>
+			<td>!=, &lt;&gt;</td>
+			<td>Check inequality<br>
+			(both expressions are identical)</td>
+			<td><code>Level != 4</code></td>
+		</tr>
+		<tr>
+			<td><em>and</em>,&nbsp;<em>or</em></td>
+			<td>Required between conditions</td>
+			<td><code>Level == 16 or CommandLine != ""</code></td>
+		</tr>
+	</tbody>
+</table>
+
+<p>To filter by multiple conditions, you can either use&nbsp;<strong>and</strong>:</p>
+Kusto<button data-bi-name="copy">Copy</button>
+
+<pre><code>SecurityEvent
+| where Level == 8 and EventID == 4672
+</code></pre>
+
+<p>or pipe multiple&nbsp;<strong>where</strong>&nbsp;elements one after the other:</p>
+Kusto<button data-bi-name="copy">Copy</button>
+
+<pre><code>SecurityEvent
+| where Level == 8 
+| where EventID == 4672
+</code></pre>
+
+<p>&nbsp;Note</p>
+
+<p>Values can have different types, so you might need to cast them to perform comparison on the correct type. For example, SecurityEvent&nbsp;<em>Level</em>&nbsp;column is of type String, so you must cast it to a numerical type such as&nbsp;<em>int</em>&nbsp;or&nbsp;<em>long</em>, before you can use numerical operators on it:&nbsp;<code>SecurityEvent | where toint(Level) &gt;= 10</code></p>
+
+<h2 id="specify-a-time-range">Specify a time range</h2>
+
+<h3 id="time-picker">Time picker</h3>
+
+<p>The time picker is next to the Run button and indicates we’re querying only records from the last 24 hours. This is the default time range applied to all queries. To get only records from the last hour, select&nbsp;<em>Last hour</em>&nbsp;and run the query again.</p>
+
+<p><img alt="Time Picker" data-linktype="relative-path" src="https://docs.microsoft.com/en-us/azure/azure-monitor/log-query/media/get-started-queries/timepicker.png"></p>
+
+<h3 id="time-filter-in-query">Time filter in query</h3>
+
+<p>You can also define your own time range by adding a time filter to the query. It’s best to place the time filter immediately after the table name:</p>
+Kusto<button data-bi-name="copy">Copy</button>
+
+<pre><code>SecurityEvent
+| where TimeGenerated &gt; ago(30m) 
+| where toint(Level) &gt;= 10
+</code></pre>
+
+<p>In the above time filter&nbsp;<code>ago(30m)</code>&nbsp;means "30 minutes ago" so this query only returns records from the last 30 minutes. Other units of time include days (2d), minutes (25m), and seconds (10s).</p>
+
+<h2 id="project-and-extend-select-and-compute-columns">Project and Extend: select and compute columns</h2>
+
+<p>Use&nbsp;<strong>project</strong>&nbsp;to select specific columns to include in the results:</p>
+Kusto<button data-bi-name="copy">Copy</button>
+
+<pre><code>SecurityEvent 
+| top 10 by TimeGenerated 
+| project TimeGenerated, Computer, Activity
+</code></pre>
+
+<p>The preceding example generates this output:</p>
+
+<p><img alt="Log Analytics project results" data-linktype="relative-path" src="https://docs.microsoft.com/en-us/azure/azure-monitor/log-query/media/get-started-queries/project.png"></p>
+
+<p>You can also use&nbsp;<strong>project</strong>&nbsp;to rename columns and define new ones. The following example uses project to do the following:</p>
+
+<ul>
+	<li>Select only the&nbsp;<em>Computer</em>&nbsp;and&nbsp;<em>TimeGenerated</em>&nbsp;original columns.</li>
+	<li>Rename the&nbsp;<em>Activity</em>&nbsp;column to&nbsp;<em>EventDetails</em>.</li>
+	<li>Create a new column named&nbsp;<em>EventCode</em>. The&nbsp;<strong>substring()</strong>&nbsp;function is used to get only the first four characters from the Activity field.</li>
+</ul>
+Kusto<button data-bi-name="copy">Copy</button>
+
+<pre><code>SecurityEvent
+| top 10 by TimeGenerated 
+| project Computer, TimeGenerated, EventDetails=Activity, EventCode=substring(Activity, 0, 4)
+</code></pre>
+
+<p><strong>extend</strong>&nbsp;keeps all original columns in the result set and defines additional ones. The following query uses&nbsp;<strong>extend</strong>&nbsp;to add a&nbsp;<em>localtime</em>column, which contains a localized TimeGenerated value.</p>
+Kusto<button data-bi-name="copy">Copy</button>
+
+<pre><code>SecurityEvent
+| top 10 by TimeGenerated
+| extend localtime = TimeGenerated-8h
+</code></pre>
+
+<h2 id="summarize-aggregate-groups-of-rows">Summarize: aggregate groups of rows</h2>
+
+<p>Use&nbsp;<strong>summarize</strong>&nbsp;to identify groups of records, according to one or more columns, and apply aggregations to them. The most common use of&nbsp;<strong>summarize</strong>&nbsp;is&nbsp;<em>count</em>, which returns the number of results in each group.</p>
+
+<p>The following query reviews all&nbsp;<em>Perf</em>&nbsp;records from the last hour, groups them by&nbsp;<em>ObjectName</em>, and counts the records in each group:</p>
+Kusto<button data-bi-name="copy">Copy</button>
+
+<pre><code>Perf
+| where TimeGenerated &gt; ago(1h)
+| summarize count() by ObjectName
+</code></pre>
+
+<p>Sometimes it makes sense to define groups by multiple dimensions. Each unique combination of these values defines a separate group:</p>
+Kusto<button data-bi-name="copy">Copy</button>
+
+<pre><code>Perf
+| where TimeGenerated &gt; ago(1h)
+| summarize count() by ObjectName, CounterName
+</code></pre>
+
+<p>Another common use is to perform mathematical or statistical calculations on each group. For example, the following calculates the average&nbsp;<em>CounterValue</em>&nbsp;for each computer:</p>
+Kusto<button data-bi-name="copy">Copy</button>
+
+<pre><code>Perf
+| where TimeGenerated &gt; ago(1h)
+| summarize avg(CounterValue) by Computer
+</code></pre>
+
+<p>Unfortunately, the results of this query are meaningless since we mixed together different performance counters. To make this more meaningful, we should calculate the average separately for each combination of&nbsp;<em>CounterName</em>&nbsp;and&nbsp;<em>Computer</em>:</p>
+Kusto<button data-bi-name="copy">Copy</button>
+
+<pre><code>Perf
+| where TimeGenerated &gt; ago(1h)
+| summarize avg(CounterValue) by Computer, CounterName
+</code></pre>
+
+<h3 id="summarize-by-a-time-column">Summarize by a time column</h3>
+
+<p>Grouping results can also be based on a time column, or another continuous value. Simply summarizing&nbsp;<code>by TimeGenerated</code>&nbsp;though would create groups for every single millisecond over the time range, since these are unique values.</p>
+
+<p>To create groups based on continuous values, it is best to break the range into manageable units using&nbsp;<strong>bin</strong>. The following query analyzes&nbsp;<em>Perf</em>&nbsp;records that measure free memory (<em>Available MBytes</em>) on a specific computer. It calculates the average value for each period if 1 hour, over the last 7 days:</p>
+Kusto<button data-bi-name="copy">Copy</button>
+
+<pre><code>Perf 
+| where TimeGenerated &gt; ago(7d)
+| where Computer == "ContosoAzADDS2" 
+| where CounterName == "Available MBytes" 
+| summarize avg(CounterValue) by bin(TimeGenerated, 1h)
+</code></pre>
+
+<p>To make the output clearer, you select to display it as a time-chart, showing the available memory over time:</p>
+
+<p><img alt="Log Analytics memory over time" data-linktype="relative-path" src="https://docs.microsoft.com/en-us/azure/azure-monitor/log-query/media/get-started-queries/chart.png"></p>
+
+<h2 id="next-steps">Next steps</h2>
+
+<ul>
+	<li>Learn about&nbsp;<a data-linktype="relative-path" href="https://docs.microsoft.com/en-us/azure/azure-monitor/log-query/search-queries">writing search queries</a></li>
+</ul>
+</main>
+
+<section data-bi-name="feedback-section">
+<h2 id="feedback">Feedback</h2>
+</section>
+
+
