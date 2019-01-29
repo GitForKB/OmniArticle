@@ -1,0 +1,87 @@
+<main class="content" data-bi-name="content" dir="ltr" id="main" lang="en-us" role="main">
+<div class="displayDate">Resource Scheduling Optimization (RSO) is an add-on capability for the Dynamics 365 for Field Service application that enables you to automatically schedule work orders for the most appropriate resources, by optimizing bookings for the shortest travel time, available work hours, and many other constraints.</div>
+
+<p>RSO is one of three ways to schedule with Dynamics 365 for Field Service:</p>
+
+<ol>
+	<li>
+	<p><strong>Manual scheduling</strong>: Drag and drop work order requirements from the bottom panel to the resource’s calendar above.</p>
+
+	<div class="mx-imgBorder">
+	<p><img alt="" data-linktype="relative-path" src="https://docs.microsoft.com/en-us/dynamics365/customer-engagement/field-service/media/29a8d922fb088fa1d668c598f6887e65.png"></p>
+	</div>
+	</li>
+	<li>
+	<p><strong>Scheduling Assistant</strong>: This allows you to filter resources on the left panel by travel range, skills, dates, roles, territories, and more. The system recommends available resources on the right and displays estimated travel times.</p>
+
+	<div class="mx-imgBorder">
+	<p><img alt="" data-linktype="relative-path" src="https://docs.microsoft.com/en-us/dynamics365/customer-engagement/field-service/media/131ed6d21d96cbc0ccc5a730dcbe1bd0.png"></p>
+	</div>
+	</li>
+	<li>
+	<p><strong>Resource Scheduling Optimization</strong>: This add-on evaluates routes and automatically schedules bookable records to minimize travel time and maximize working hours and more, based on your configured objectives, such as “minimize travel time” and “maximize working hours.”</p>
+
+	<div class="mx-imgBorder">
+	<p><img alt="" data-linktype="relative-path" src="https://docs.microsoft.com/en-us/dynamics365/customer-engagement/field-service/media/8cce1b1462b960eecac5012ad1a2d685.png"></p>
+	</div>
+	</li>
+</ol>
+
+<h2 class="heading-with-anchor" id="benefits-of-using-resource-scheduling-optimization">Benefits of using Resource Scheduling Optimization</h2>
+
+<ul>
+	<li>
+	<p><strong>Automated scheduling</strong>: Automatically scheduling the majority of requirements saves time and empowers dispatchers to focus on exceptions and billing.</p>
+	</li>
+	<li>
+	<p><strong>Achieve scale</strong>: Allows dispatchers to manage more resources, enabling the business to scale.</p>
+	</li>
+	<li>
+	<p><strong>Customer satisfaction</strong>: Improved efficiency drives more predictable arrival and completion times and seamlessly schedules alternate technicians for urgent situations.</p>
+	</li>
+	<li>
+	<p><strong>Technician efficiencies and reduced cost</strong>:</p>
+
+	<ul>
+		<li>Fitting more appointments into working hours drives revenue and reduces overtime costs.</li>
+		<li>Matching work orders and technician skillsets reduces the cost of lost appointments.</li>
+	</ul>
+	</li>
+	<li>
+	<p><strong>Reduced travel time means reduced fuel consumption and less vehicle maintenance</strong>:</p>
+
+	<ul>
+		<li>Ensuring your technicians are taking the shortest possible route with turn-by-turn directions from Bing Maps or your custom mapping provider reduces fuel consumption and wear and tear on vehicles.</li>
+		<li>If each field technician saves one tank of gas a month, the savings generally will surpass the cost of RSO.&nbsp;</li>
+	</ul>
+	</li>
+	<li>
+	<p><strong>Improved customer retention</strong>: Giving preference to higher-priority work orders helps avoid service level agreement (SLA) penalties and helps you meet customer service commitments.</p>
+	</li>
+</ul>
+
+<h2 class="heading-with-anchor" id="more-resources">More resources</h2>
+
+<ul>
+	<li><a data-linktype="external" href="https://blogs.msdn.microsoft.com/crm/2018/05/09/whats-new-for-dynamics-365-resource-scheduling-optimization-v2-6-release/">What’s New for Dynamics 365 for Customer Engagement Resource Scheduling Optimization v2.6 Release</a></li>
+	<li><a data-linktype="external" href="https://blogs.msdn.microsoft.com/crm/2018/04/02/whats-new-for-dynamics-365-resource-scheduling-optimization-v2-5-release/">What’s New for Dynamics 365 for Customer Engagement Resource Scheduling Optimization v2.5 Release</a></li>
+	<li><a data-linktype="external" href="https://blogs.msdn.microsoft.com/crm/2017/12/12/release-notes-for-resource-scheduling-optimization-v2-0-17335-1-dynamics-365/">Release Notes for Resource Scheduling Optimization (v2.0) – Dynamics 365</a></li>
+	<li><a data-linktype="external" href="https://blogs.msdn.microsoft.com/crm/2017/10/26/whats-new-for-dynamics-365-resource-scheduling-optimization-v1-5-17284-2-release/">What’s New for Dynamics 365 for Customer Engagement Resource Scheduling Optimization v1.5 Release</a></li>
+	<li><a data-linktype="external" href="https://www.microsoft.com/en-US/dynamics/crm-customer-center/scheduling-anything-in-dynamics-365-with-universal-resource-scheduling.aspx">Scheduling anything in Dynamics 365 for Customer Engagement with Universal Resource Scheduling</a></li>
+</ul>
+
+<h2 class="heading-with-anchor" id="privacy-notice">Privacy notice</h2>
+
+<p>By enabling Resource Schedule Optimization, information, including schedule configuration information and work order details (location-relevant address information, such as account address and resource address) will be sent from Dynamics 365 for Customer Engagement to Bing Maps to allow for:</p>
+
+<ul>
+	<li>
+	<p>Determining the geo location (latitude, longitude) of a specific address.</p>
+	</li>
+	<li>
+	<p>Calculating the distance and travel time between locations.</p>
+
+	<p>Bing Maps then returns the information to Dynamics 365 for Customer Engagement. An administrator can subsequently disable Resource Schedule Optimization to prevent address information from being sent to Bing Maps.</p>
+	</li>
+</ul>
+<!-- </content> --></main>
