@@ -1,39 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.2.1/css/bootstrap.min.css"
         integrity="sha256-azvvU9xKluwHFJ0Cpgtf0CYzK7zgtOznnzxV4924X1w=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="sb-admin.min.css" />
 </head>
+
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand navbar-dark bg-dark static-top">
         <a class="navbar-brand" href="#">KB Article ❤️ GitHub</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
     </nav>
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-3">
-                <nav id="sidebar" class="navbar-light bg-light">
-                    <div class="sidebar-header">
-                        <h3>Available Articles</h3>
+    <div id="wrapper">
+        <ul id="menuContainer" class="sidebar navbar-nav">
+        </ul>
+        <div id="content-wrapper">
+            <div class="container-fluid">
+                <ol id="tagsContainer" class="breadcrumb">
+                    <li class='breadcrumb-item'>bla</li>
+<li class='breadcrumb-item'>foo</li>
+<li class='breadcrumb-item'>var</li>
+                </ol>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h2>Some useful article</h2>
+                            </div>
+                            <div class="card-body">
+                                <p><strong>Content</strong></p>
+
+
+
+                            </div>
+                        </div>
                     </div>
-                    <ul id="menuContainer" class="list-unstyled components">
-                    </ul>
-                </nav>
-            </div>
-            <div class="col-md-9">
-                <h2>Some useful article</h2>
-                <p><strong>Content</strong></p>
-
-
-
+                </div>
             </div>
         </div>
-    </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-        crossorigin="anonymous"></script>
-    <script src="site.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+            crossorigin="anonymous"></script>
+        <script src="site.js"></script>
 </body>
 </html>
