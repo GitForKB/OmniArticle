@@ -31,7 +31,7 @@ function injectSearch(){
     $('nav').append(template);
     $("form").submit(function(e){
         e.preventDefault();
-        window.location.href = "http://localhost:5000/search.html?search="+encodeURIComponent($('#searchText').val());
+        window.location.href = "https://gitforkb.github.io/OmniArticle/search.html?search="+encodeURIComponent($('#searchText').val());
     });
 }
 
