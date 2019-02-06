@@ -62,7 +62,7 @@ Kusto<button data-bi-name="copy">Copy</button>
 | sort by TimeGenerated desc
 </code></pre>
 
-<p>That could return too many results though and might also take some time. The above query sorts&nbsp;<em>the entire</em>&nbsp;SecurityEvent table by the TimeGenerated column. The Analytics portal then limits the display to show only 10,000 records. This approach is of course not optimal.</p>
+<p>That could return too many results though and might also take some time. The above query sorts&nbsp;<em>the entire</em>&nbsp;SecurityEvent table by the TimeGenerated column. The Analytics portal then limits the display to show only 10,000 recordsю This approach is of course not optimal.</p>
 
 <p>The best way to get only the latest 10 records is to use&nbsp;<strong>top</strong>, which sorts the entire table on the server side and then returns the top records:</p>
 Kusto<button data-bi-name="copy">Copy</button>
